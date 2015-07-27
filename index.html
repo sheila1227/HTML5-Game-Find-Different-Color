@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/app.min.css"/>
 </head>
 <body>
-<div class="page-welcome page" style="display:none">
+<div class="page-welcome page">
     <h1 class="title"></h1>
     <p class="hint"></p>
     <div class="btn-play-wrapper">
@@ -17,9 +17,10 @@
     <p class="title">
         <span class="score">2</span><span class="timer">34</span><span class="btn-pause">暂停</span>
     </p>
-    <div class="game-area"></div>
+    <canvas class="game-area">您的浏览器不支持canvas</canvas>
 </div>
 <div class="page-dialog page"></div>
+<script src="js/easeljs.min.js"></script>
 <script src="http://libs.tan14.net/require.js/2.1.14/require.min.js" data-main="js/app.js"></script>
 </body>
 </html>

@@ -9,20 +9,28 @@ define(["jquery"], function($) {
     }
     var $self;//容器
 
+    //初始化,入口
     var _init=function(containerSelector,config){
-        $self=$(containerSelector);
+        $self=$(containerSelector).show();
         _config= $.extend(_config,config);
         _render();
+        _attachEvent();
     }
 
+    //渲染界面
     function _render(){
         $(_config.titleSelector,$self).text(_config.titleContent);
         $(_config.hintSelector,$self).text(_config.hintText);
         $(_config.playBtnSelector,$self).text(_config.playBtnText);
     }
 
-    function attachEvent(){
-
+    function _attachEvent(){
+        $(_config.playBtnSelector,$self).on('click',function(){
+            requirejs(['play'],function(play){
+                $self.hide();
+                play.init({containerSelector:'.page-play'});
+            })
+        })
     }
 
     return{
