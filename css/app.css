@@ -127,3 +127,34 @@ body {
     width: 100%;
   }
 }
+.page-dialog .title {
+  margin-top: 150px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffe2c5;
+  line-height: 3rem;
+}
+.page-dialog .btn {
+  width: 210px;
+  height: 70px;
+  line-height: 70px;
+  display: block;
+  color: lightgray;
+  background: #faac39;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 1.3rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-box-shadow: 0 5px 1px #d99531;
+  -moz-box-shadow: 0 5px 1px #d99531;
+  box-shadow: 0 5px 1px #d99531;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 200px;
+  margin-top: 30px;
+  color: #fff;
+}

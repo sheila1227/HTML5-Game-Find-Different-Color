@@ -4,15 +4,16 @@ define([], function() {
         var width=width;
         var height=height;
         var type=type;
-        var actualColor
+        var actualColor;
         if(type===Rectangle.TYPE_NORMAL){
             actualColor=color;
         }else{
             actualColor=ColorLuminance(color,lightenRatio);
         }
         this.graphics.beginFill(actualColor);
-        this.graphics.drawRoundRect(0,0,width,height,10);//圆角矩形
+        this.graphics.drawRoundRect(0,0,width,height,6);//圆角矩形
         this.graphics.endFill();
+        this.cursor="pointer";
     }
     Rectangle.prototype=new createjs.Shape(); //继承自Shape类
 
