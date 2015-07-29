@@ -59,7 +59,7 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
             this.curLev = -1;//当前关卡
             this.curScore = -1;//当前得分
             this.ticker = null;//计时器,倒计时用
-            this.leftTime = 10;//剩余时间
+            this.leftTime = 60;//剩余时间
             this.isPaused = false;
             $timerView.text('');
             $scoreView.text('');
@@ -111,18 +111,19 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
             var pickedX = _randomPick(0, num - 1);
             var pickedY = _randomPick(0, num - 1);
             var gap = _config.gap;
+            var lightenRatio=this.getLightenRatio();
             for (var i = 0; i < num; i++) {
                 for (var j = 0; j < num; j++) {
                     var rec;
                     if (i === pickedX && j === pickedY) {
-                        rec = new Rectangle(width, height, color, .5, Rectangle.TYPE_PICKED);//创建特殊方块
+                        rec = new Rectangle(width, height, color,lightenRatio , Rectangle.TYPE_PICKED);//创建特殊方块
                         (function (me) {
                             rec.addEventListener('click', function () {
                                 me.nextLevel();
                             })
                         })(this);//注意闭包
                     } else {
-                        rec = new Rectangle(width, height, color, .5, Rectangle.TYPE_NORMAL);//创建普通方块
+                        rec = new Rectangle(width, height, color, lightenRatio, Rectangle.TYPE_NORMAL);//创建普通方块
                     }
 
                     gameView.addChild(rec);
@@ -131,6 +132,11 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
                 }
 
             }
+        },
+        getLightenRatio:function(){  //由当前关卡数获取亮度增加比例
+            var minValue=0.2,maxValue=0.6;
+            return maxValue-(maxValue-minValue)/(this.levs.length-1)*this.curLev
+
         }
 
 
