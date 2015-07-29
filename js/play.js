@@ -1,4 +1,4 @@
-define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
+define(["jquery", "rectangle", "dialog"], function ($, Rectangle, dialog) {
     var _config = {
         containerSelector: '', //最外层容器
         gameAreaSelector: '.game-area',   //绘图区
@@ -33,6 +33,7 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
         var canvas = $gameArea[0];
         stage = new createjs.Stage(canvas);
         stage.enableMouseOver(10);//调用此方法,shape上的cursor属性设置才会生效
+        createjs.Touch.enable(stage);
         stage.canvas.width = $gameArea.width();
         stage.canvas.height = $gameArea.height();//一定要加上这句,否则会先在stage上画好,state再拉伸到$gameArea尺寸,就会产生变形
         createjs.Ticker.setFPS(30);
@@ -44,11 +45,15 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
 
     function _bindEvent() {
         var _game = game;
-        $(_config.pauseBtnSelector).on('click', function () {
-            _game.pause();
-            $self.hide();
-            dialog.init({containerSelector:'.page-dialog',type:dialog.TYPE_RESUME});
-        })
+        //var eventType=navigator.userAgent.match(/iphone|android|phone|mobile|wap|netfront|x11|java|opera mobi|opera mini|ucweb|windows ce|symbian|symbianos|series|webos|sony|blackberry|dopod|nokia|samsung|palmsource|xda|pieplus|meizu|midp|cldc|motorola|foma|docomo|up.browser|up.link|blazer|helio|hosin|huawei|novarra|coolpad|webos|techfaith|palmsource|alcatel|amoi|ktouch|nexian|ericsson|philips|sagem|wellcom|bunjalloo|maui|smartphone|iemobile|spice|bird|zte-|longcos|pantech|gionee|portalmmm|jig browser|hiptop|benq|haier|^lct|320x320|240x320|176x220/i)!= null?'touchstart':'click';
+           var eventType='click';
+            $(_config.pauseBtnSelector).on(eventType, function () {
+                _game.pause();
+                $self.hide();
+                dialog.init({containerSelector: '.page-dialog', type: dialog.TYPE_RESUME});
+            });
+
+
     }
 
 
@@ -74,7 +79,7 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
                 if (!me.isPaused) {
                     --me.leftTime;
                     $timerView.text(me.leftTime + '');
-                    if(me.leftTime===0){
+                    if (me.leftTime === 0) {
                         me.gameover();
 
 
@@ -82,11 +87,11 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
                 }
             }, 1000);
         },
-        gameover:function(){ //游戏结束
-            this.ticker&&clearInterval(this.ticker);
+        gameover: function () { //游戏结束
+            this.ticker && clearInterval(this.ticker);
             var me = this;
-            $self.fadeOut(1000,function(){
-                dialog.init({containerSelector:'.page-dialog',type:dialog.TYPE_OVER,score:me.curScore});
+            $self.fadeOut(1000, function () {
+                dialog.init({containerSelector: '.page-dialog', type: dialog.TYPE_OVER, score: me.curScore});
             });
         },
         pause: function () { //暂停游戏
@@ -111,17 +116,19 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
             var pickedX = _randomPick(0, num - 1);
             var pickedY = _randomPick(0, num - 1);
             var gap = _config.gap;
-            var lightenRatio=this.getLightenRatio();
+            var lightenRatio = this.getLightenRatio();
             for (var i = 0; i < num; i++) {
                 for (var j = 0; j < num; j++) {
                     var rec;
                     if (i === pickedX && j === pickedY) {
-                        rec = new Rectangle(width, height, color,lightenRatio , Rectangle.TYPE_PICKED);//创建特殊方块
+                        rec = new Rectangle(width, height, color, lightenRatio, Rectangle.TYPE_PICKED);//创建特殊方块
                         (function (me) {
-                            rec.addEventListener('click', function () {
+                            rec.addEventListener('mousedown', function () {
                                 me.nextLevel();
                             })
                         })(this);//注意闭包
+
+
                     } else {
                         rec = new Rectangle(width, height, color, lightenRatio, Rectangle.TYPE_NORMAL);//创建普通方块
                     }
@@ -133,9 +140,9 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
 
             }
         },
-        getLightenRatio:function(){  //由当前关卡数获取亮度增加比例
-            var minValue=0.2,maxValue=0.6;
-            return maxValue-(maxValue-minValue)/(this.levs.length-1)*this.curLev
+        getLightenRatio: function () {  //由当前关卡数获取亮度增加比例
+            var minValue = 0.2, maxValue = 0.6;
+            return maxValue - (maxValue - minValue) / (this.levs.length - 1) * this.curLev
 
         }
 
@@ -157,6 +164,6 @@ define(["jquery", "rectangle","dialog"], function ($, Rectangle,dialog) {
 
     return {
         init: _init,
-        game:game
+        game: game
     };
 });

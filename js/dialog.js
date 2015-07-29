@@ -54,14 +54,18 @@ define(["jquery"], function($) {
     function bindEvent(){
         $btn.off('click');//移除所有事件绑定
         requirejs(['play'],function(play){
+            var u = navigator.userAgent, app = navigator.appVersion;
+            var isMobile =!!u.match(/AppleWebKit.*Mobile.*/)|| !!u.match(/AppleWebKit/);//是否为移动终端
 
+            //var eventType=navigator.userAgent.match(/iphone|android|phone|mobile|wap|netfront|x11|java|opera mobi|opera mini|ucweb|windows ce|symbian|symbianos|series|webos|sony|blackberry|dopod|nokia|samsung|palmsource|xda|pieplus|meizu|midp|cldc|motorola|foma|docomo|up.browser|up.link|blazer|helio|hosin|huawei|novarra|coolpad|webos|techfaith|palmsource|alcatel|amoi|ktouch|nexian|ericsson|philips|sagem|wellcom|bunjalloo|maui|smartphone|iemobile|spice|bird|zte-|longcos|pantech|gionee|portalmmm|jig browser|hiptop|benq|haier|^lct|320x320|240x320|176x220/i)!= null?'touchstart':'click';
+            var eventType='click';
             if(_config.type===TYPE_RESUME){
-                $btn.on('click',function (){
+                $btn.on(eventType,function (){
                     $self.hide();
                     play.game.resume();
                         });
             }else if(_config.type===TYPE_OVER){
-                $btn.on('click',function (){
+                $btn.on(eventType,function (){
                     $self.hide();
                     play.game.start();
                 });
